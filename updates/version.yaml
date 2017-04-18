@@ -14,4 +14,5 @@
     - oauth/2014_04_24_111518_create_oauth_access_tokens_table.php
     - oauth/2014_04_24_111657_create_oauth_access_token_scopes_table.php
     - oauth/2014_04_24_111810_create_oauth_refresh_tokens_table.php
-    - seed_oauth_clients_table.php
+    - oauth/publish_config_file.php
+    - oauth/seed_oauth_clients_table.php
