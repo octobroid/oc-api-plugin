@@ -1,9 +1,7 @@
-<?php namespace Champ\Api\Updates;
+<?php namespace Octobro\API\Updates;
 
-use October\Rain\Database\Updates\Seeder;
-use Illuminate\Database\Eloquent\Model;
 use DB;
-use Hash;
+use October\Rain\Database\Updates\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
