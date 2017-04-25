@@ -110,6 +110,19 @@ class ApiController extends Controller {
         return $this->respondWithArray($rootScope->toArray());
     }
 
+    protected function respondWithPaginator($paginator, $callback)
+    {
+        $collection = $paginator->getCollection();
+
+        $resource = new Collection($collection, $callback);
+
+        $resource->setPaginator(new IlluminatePaginatorAdapter($paginator));
+
+        $rootScope = $this->fractal->createData($resource);
+
+        return $this->respondWithArray($rootScope->toArray());
+    }
+
     protected function respondWithArray(array $array, array $headers = [])
     {
         $mimeTypeRaw = Input::server('HTTP_ACCEPT', '*/*');
