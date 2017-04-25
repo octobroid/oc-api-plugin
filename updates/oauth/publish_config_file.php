@@ -1,4 +1,4 @@
-<?php
+<?php namespace Octobro\API\Updates;
 
 use October\Rain\Database\Updates\Migration;
 
@@ -25,6 +25,7 @@ class PublishConfigFile extends Migration
      */
     public function down()
     {
-        unlink(config_path('oauth2.php'));
+        if (file_exists(config_path('oauth2.php')))
+            unlink(config_path('oauth2.php'));
     }
 }
