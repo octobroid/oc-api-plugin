@@ -1,6 +1,7 @@
 <?php namespace Octobro\API\Controllers;
 
 use URL;
+use Input;
 use Mail;
 use Response;
 use Validator;
@@ -23,6 +24,8 @@ class Me extends ApiController
         $data = Input::get();
 
         $this->user->fill($data);
+
+        $this->user->save();
 
         return $this->respondWithItem($this->user, new UserTransformer);
     }
