@@ -38,6 +38,7 @@ class Plugin extends PluginBase
 
         // Handle error
         App::error(function(\Exception $e) {
+            header("Access-Control-Allow-Origin: *");
             $trace = $e->getTraceAsString();
 
             // Not sure it's the right way to do...
