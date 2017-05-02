@@ -1,7 +1,8 @@
 <?php
 
     Route::group([
-        'prefix' => 'api/v1',
+        'domain' => env('API_DOMAIN'),
+        'prefix' => env('API_PREFIX', 'api') .'/v1',
         'namespace' => 'Octobro\API\Controllers',
         'middleware' => 'cors'
         ], function() {
