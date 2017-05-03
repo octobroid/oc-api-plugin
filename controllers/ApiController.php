@@ -5,6 +5,7 @@ use Event;
 use Response;
 use Exception;
 use Authorizer;
+use SimpleXMLElement;
 use Illuminate\Routing\Controller;
 use RainLab\User\Models\User;
 use Symfony\Component\Yaml\Dumper as YamlDumper;
@@ -152,6 +153,11 @@ class ApiController extends Controller {
                 $content = $dumper->dump($array, 2);
                 break;
 
+            case 'application/xml':
+                $xml = new SimpleXMLElement('<response/>');
+                $this->arrayToXml($array, $xml);
+                $content = $xml->asXML();
+                break;
             default:
                 $content = json_encode([
                     'error' => [
@@ -167,6 +173,26 @@ class ApiController extends Controller {
         $response->header('Content-Type', $mimeType);
 
         return $response;
+    }
+
+    /**
+     * Convert an array to XML
+     * @param array $array
+     * @param SimpleXMLElement $xml
+     */
+    protected function arrayToXml($array, &$xml){
+        foreach ($array as $key => $value) {
+            if(is_array($value)){
+                if(is_int($key)){
+                    $key = "item";
+                }
+                $label = $xml->addChild($key);
+                $this->arrayToXml($value, $label);
+            }
+            else {
+                $xml->addChild($key, $value);
+            }
+        }
     }
 
     protected function respondWithError($message, $errorCode)
