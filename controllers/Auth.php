@@ -15,7 +15,7 @@ class Auth extends ApiController
     public function accessToken()
     {
         try {
-            return Response::json(Authorizer::issueAccessToken());
+            return $this->respondWithArray((Authorizer::issueAccessToken()));
         } catch (Exception $e) {
             return $this->errorWrongArgs($e->getMessage());
         }
@@ -28,9 +28,7 @@ class Auth extends ApiController
             /*
              * Validate input
              */
-            $data = post();
-
-            // dd($data);
+            $data = $this->data;
 
             if (!array_key_exists('password_confirmation', $data)) {
                 $data['password_confirmation'] = post('password');

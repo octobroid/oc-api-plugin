@@ -1,19 +1,21 @@
 <?php namespace Octobro\API\Controllers;
 
-use Authorizer;
-use URL;
 use Input;
-use Response;
 use Event;
+use Response;
 use Exception;
+use Authorizer;
+use Illuminate\Routing\Controller;
+use RainLab\User\Models\User;
+use Symfony\Component\Yaml\Dumper as YamlDumper;
 use League\Fractal\Manager;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
-use Illuminate\Routing\Controller;
-use RainLab\User\Models\User;
 
 class ApiController extends Controller {
+
+    protected $input, $data;
 
     protected $user;
 
@@ -41,6 +43,9 @@ class ApiController extends Controller {
         }
 
         $this->user = $this->getUser();
+
+        $this->input = request()->isJson() ? request()->json() : request();
+        $this->data = $this->input->all();
 
         $this->fireDebugFilters();
     }
@@ -139,18 +144,15 @@ class ApiController extends Controller {
 
         switch ($mimeType) {
             case 'application/json':
-                $contentType = 'application/json';
                 $content = json_encode($array);
                 break;
 
             case 'application/x-yaml':
-                $contentType = 'application/x-yaml';
                 $dumper = new YamlDumper();
                 $content = $dumper->dump($array, 2);
                 break;
 
             default:
-                $contentType = 'application/json';
                 $content = json_encode([
                     'error' => [
                         'code' => static::CODE_INVALID_MIME_TYPE,
@@ -158,10 +160,11 @@ class ApiController extends Controller {
                         'message' => sprintf('Content of type %s is not supported.', $mimeType),
                     ]
                 ]);
+                $mimeType = 'application/json';
         }
 
         $response = Response::make($content, $this->statusCode, $headers);
-        $response->header('Content-Type', $contentType);
+        $response->header('Content-Type', $mimeType);
 
         return $response;
     }
