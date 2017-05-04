@@ -1,14 +1,10 @@
 <?php namespace Octobro\API\Transformers;
 
 use RainLab\User\Models\User;
-use League\Fractal\TransformerAbstract;
+use Octobro\API\Classes\Transformer;
 
-class UserTransformer extends TransformerAbstract
+class UserTransformer extends Transformer
 {
-    protected $defaultIncludes = [];
-
-    protected $availableIncludes = [];
-
     public function transform(User $user)
     {
         return [
