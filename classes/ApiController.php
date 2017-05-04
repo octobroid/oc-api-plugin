@@ -1,4 +1,4 @@
-<?php namespace Octobro\API\Controllers;
+<?php namespace Octobro\API\Classes;
 
 use Input;
 use Event;
@@ -139,8 +139,8 @@ class ApiController extends Controller {
         } else {
              // You will probably want to do something intelligent with charset if provided.
             // This chapter just assumes UTF8 everything everywhere.
-            $mimeParts = (array) explode(';', $mimeTypeRaw);
-            $mimeType = strtolower($mimeParts[0]);
+            $mimeParts = (array) preg_split( "/(,|;)/", $mimeTypeRaw );
+            $mimeType = strtolower(trim($mimeParts[0]));
         }
 
         switch ($mimeType) {

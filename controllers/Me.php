@@ -1,5 +1,6 @@
 <?php namespace Octobro\API\Controllers;
 
+use Octobro\API\Classes\ApiController;
 use Octobro\API\Transformers\UserTransformer;
 
 class Me extends ApiController
