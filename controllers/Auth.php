@@ -1,14 +1,11 @@
 <?php namespace Octobro\API\Controllers;
 
-use URL;
-use Mail;
-use Response;
 use Validator;
 use Exception;
 use Authorizer;
 use Auth as AuthBase;
 use ValidationException;
-use RainLab\User\Models\User;
+use Octobro\API\Classes\ApiController;
 
 class Auth extends ApiController
 {
@@ -48,7 +45,7 @@ class Auth extends ApiController
             // Register, no need activation
             $user = AuthBase::register($data, true);
 
-            return Response::json(Authorizer::issueAccessToken());
+            return $this->respondWithArray(Authorizer::issueAccessToken());
 
         } catch (Exception $e) {
             return $this->errorWrongArgs($e->getMessage());
