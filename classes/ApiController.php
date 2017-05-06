@@ -7,6 +7,7 @@ use Response;
 use Exception;
 use Authorizer;
 use SimpleXMLElement;
+use System\Models\File;
 use Illuminate\Routing\Controller;
 use RainLab\User\Models\User;
 use Symfony\Component\Yaml\Dumper as YamlDumper;
@@ -266,5 +267,31 @@ class ApiController extends Controller {
     public function errorWrongArgs($message = 'Wrong Arguments')
     {
         return $this->setStatusCode(400)->respondWithError($message, self::CODE_WRONG_ARGS);
+    }
+
+    protected function base64ToFile($string)
+    {
+        $mimeType = substr(explode(';', $string)[0], 5);
+
+        switch($mimeType) {
+            case 'image/jpeg':
+                $fileExt = 'jpg';
+                break;
+            default:
+                $fileExt = explode('/', $fileExt)[1];
+        }
+
+        $data = base64_decode(explode(',', $string)[1]);
+
+        $filePath = temp_path(time() . $this->user->id . '.' . $fileExt);
+
+        file_put_contents($filePath, $data);
+
+        $file = new File;
+        $file = $file->fromFile($filePath);
+
+        unlink($filePath);
+
+        return $file;
     }
 }
