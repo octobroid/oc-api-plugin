@@ -1,5 +1,6 @@
 <?php namespace Octobro\API\Classes;
 
+use Auth;
 use Input;
 use Event;
 use Response;
@@ -56,8 +57,12 @@ class ApiController extends Controller {
         try {
             $userId = Authorizer::getResourceOwnerId();
 
-            if($userId) {
-                return User::find($userId);
+            if ($userId) {
+                $user = User::find($userId);
+
+                Auth::login($user);
+
+                return $user;
             }
         } catch(Exception $e) {
             return null;
