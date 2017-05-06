@@ -14,6 +14,7 @@ abstract class Transformer extends TransformerAbstract
 
     public $availableIncludes = [];
 
+    protected $additionalFields = [];
     /**
      * Instantiate a new BackendController instance.
      */
@@ -30,6 +31,17 @@ abstract class Transformer extends TransformerAbstract
         self::extendableExtendCallback($callback);
     }
 
+    final public function transform($data)
+    {
+        $additionalData = [];
+
+        foreach ($this->additionalFields as $key => $additionalField) {
+            $additionalData[$key] = is_callable($additionalField) ? $additionalField($data) : $data->{$key};
+        }
+
+        return array_merge($this->data($data), $additionalData);
+    }
+
     /**
      * Perform dynamic methods
      */
@@ -42,6 +54,43 @@ abstract class Transformer extends TransformerAbstract
         return call_user_func_array([$this, $method], $parameters);
     }
 
+    public function addField($key, $callback = null)
+    {
+        $this->additionalFields[$key] = $callback;
+    }
+
+    public function addFields($fields)
+    {
+        foreach ($fields as $key => $field) {
+            if (is_int($key)) {
+                $this->addField($field);
+            } else {
+                $this->addField($key, $field);
+            }
+        }
+    }
+
+    /**
+     * [addInclude description]
+     * @param [type]  $key        [description]
+     * @param [type]  $callback   [description]
+     * @param boolean $addDefault [description]
+     */
+    public function addInclude($key, $callback, $addDefault = false)
+    {
+        $this->availableIncludes[] = $key;
+
+        if ($addDefault) {
+            $this->defaultIncludes[] = $key;
+        }
+
+        $this->addDynamicMethod(camel_case('include ' . $key), $callback);
+    }
+
+    public function addDefaultInclude($key, $callback)
+    {
+        $this->addInclude($key, $callback, true);
+    }
 
     protected function file($file)
     {

@@ -5,7 +5,7 @@ use Octobro\API\Classes\Transformer;
 
 class UserTransformer extends Transformer
 {
-    public function transform(User $user)
+    public function data(User $user)
     {
         return [
             'id'         => (int) $user->id,
