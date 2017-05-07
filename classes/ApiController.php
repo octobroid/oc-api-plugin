@@ -278,7 +278,7 @@ class ApiController extends Controller {
                 $fileExt = 'jpg';
                 break;
             default:
-                $fileExt = explode('/', $fileExt)[1];
+                $fileExt = explode('/', $mimeType)[1];
         }
 
         $data = base64_decode(explode(',', $string)[1]);
