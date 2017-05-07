@@ -1,6 +1,7 @@
 <?php namespace Octobro\API;
 
 use App;
+use Config;
 use System\Classes\PluginBase;
 use Illuminate\Foundation\AliasLoader;
 
@@ -43,13 +44,18 @@ class Plugin extends PluginBase
 
             // Not sure it's the right way to do...
             if (\mb_strpos($trace, 'Octobro\API\Controllers') || \mb_strpos($trace, 'LucaDegasperi\OAuth2Server\Middleware\OAuthMiddleware')) {
-                return [
+                $error = [
                     'error' => [
                         'code' => 'INTERNAL_ERROR',
                         'http_code' => 500,
                         'message' => $e->getMessage(),
-                    ]
+                    ],
                 ];
+
+                if (Config::get('app.debug'))
+                    $error['trace'] = $e->getTrace();
+
+                return $error;
             }
         });
     }
