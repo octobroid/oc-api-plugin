@@ -123,4 +123,26 @@ abstract class Transformer extends TransformerAbstract
         return $image;
     }
 
+    protected function files($files)
+    {
+        $result = [];
+
+        foreach ($files as $file) {
+            $result[] = $this->file($file);
+        }
+
+        return $result;
+    }
+
+    protected function images($files, Array $customSizes = [])
+    {
+        $result = [];
+
+        foreach ($files as $file) {
+            $result[] = $this->image($file);
+        }
+
+        return $result;
+    }
+
 }
