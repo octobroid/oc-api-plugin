@@ -100,7 +100,7 @@ abstract class Transformer extends TransformerAbstract
         return array_only($file->toArray(), ['file_name', 'file_size', 'path']);
     }
 
-    protected function image($file, Array $customSizes = [])
+    protected function image($file, Array $customSizes = [], $append = false)
     {
         if (!$file)
             return null;
@@ -109,12 +109,27 @@ abstract class Transformer extends TransformerAbstract
             'original' => $file->path,
         ];
 
-        $sizes = array_merge([
-            'small' => [160, 160, 'crop'],
-            'medium' => [240, 240, 'crop'],
-            'large' => [800, 800, 'crop'],
-            'thumb' => [480, 480],
-        ], $customSizes);
+        // If the custom size is not array
+        if (! is_array(reset($customSizes)) && count($customSizes) >= 2) {
+            $customSizes = [
+                'default' => $customSizes,
+            ];
+        }
+
+        if ($append) {
+            $sizes = array_merge([
+                'small' => [160, 160, 'crop'],
+                'medium' => [240, 240, 'crop'],
+                'large' => [800, 800, 'crop'],
+                'thumb' => [480, 480],
+            ], $customSizes);
+        } else {
+            $sizes = $customSizes;
+        }
+
+        if (!count($sizes)) {
+            return $image['original'];
+        }
 
         foreach ($sizes as $name => $size) {
             $image[$name] = call_user_func_array([$file, 'getThumb'], $size);
