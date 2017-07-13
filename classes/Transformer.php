@@ -39,7 +39,7 @@ abstract class Transformer extends TransformerAbstract
             $additionalData[$key] = is_callable($additionalField) ? $additionalField($data) : $data->{$key};
         }
 
-        return array_merge($this->data($data), $additionalData);
+        return array_merge($data ? $this->data($data) : [], $additionalData);
     }
 
     /**
