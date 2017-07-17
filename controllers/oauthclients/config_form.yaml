@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: O Auth Client
+
+# Model Form Field configuration
+form: $/octobro/api/models/oauthclient/fields.yaml
+
+# Model Class name
+modelClass: Octobro\API\Models\OAuthClient
+
+# Default redirect location
+defaultRedirect: octobro/api/oauthclients
+
+# Create page
+create:
+    title: Create O Auth Client
+    redirect: octobro/api/oauthclients/update/:id
+    redirectClose: octobro/api/oauthclients
+
+# Update page
+update:
+    title: Edit O Auth Client
+    redirect: octobro/api/oauthclients
+    redirectClose: octobro/api/oauthclients
+
+# Preview page
+preview:
+    title: Preview O Auth Client
