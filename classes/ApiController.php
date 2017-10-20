@@ -72,13 +72,13 @@ class ApiController extends Controller {
 
     public function fireDebugFilters()
     {
-        $this->beforeFilter(function () {
-            Event::fire('clockwork.controller.start');
-        });
-
-        $this->afterFilter(function () {
-            Event::fire('clockwork.controller.end');
-        });
+        // $this->beforeFilter(function () {
+        //     Event::fire('clockwork.controller.start');
+        // });
+        //
+        // $this->afterFilter(function () {
+        //     Event::fire('clockwork.controller.end');
+        // });
     }
 
     /**

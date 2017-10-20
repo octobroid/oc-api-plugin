@@ -21,21 +21,24 @@ class Plugin extends PluginBase
         App::register('\Barryvdh\Cors\ServiceProvider');
 
         // Register oAuth
-        App::register('\LucaDegasperi\OAuth2Server\Storage\FluentStorageServiceProvider');
-        App::register('\LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider');
+        App::register('\Octobro\API\Storage\FluentStorageServiceProvider');
+        App::register('\Octobro\API\Classes\OAuth2ServerServiceProvider');
 
         // Add alias
         $alias = AliasLoader::getInstance();
-        $alias->alias('Authorizer', '\LucaDegasperi\OAuth2Server\Facades\Authorizer');
+        $alias->alias('Authorizer', '\Octobro\API\Facades\Authorizer');
+
+        // Add cors middleware
+        app('router')->aliasMiddleware('cors', \Barryvdh\Cors\HandleCors::class);
 
         // Add oauth middleware
-        // $this->middleware(\LucaDegasperi\OAuth2Server\Middleware\OAuthExceptionHandlerMiddleware::class);
+        // $this->middleware(\Octobro\API\Middleware\OAuthExceptionHandlerMiddleware::class);
 
         // Add oauth route middleware
-        $this->app['router']->middleware('oauth', \LucaDegasperi\OAuth2Server\Middleware\OAuthMiddleware::class);
-        $this->app['router']->middleware('oauth-user', \LucaDegasperi\OAuth2Server\Middleware\OAuthUserOwnerMiddleware::class);
-        $this->app['router']->middleware('oauth-client', \LucaDegasperi\OAuth2Server\Middleware\OAuthClientOwnerMiddleware::class);
-        $this->app['router']->middleware('check-authorization-params', \LucaDegasperi\OAuth2Server\Middleware\CheckAuthCodeRequestMiddleware::class);
+        app('router')->aliasMiddleware('oauth' , \Octobro\API\Middleware\OAuthMiddleware::class);
+        app('router')->aliasMiddleware('oauth-user' , \Octobro\API\Middleware\OAuthUserOwnerMiddleware::class);
+        app('router')->aliasMiddleware('oauth-client' , \Octobro\API\Middleware\OAuthClientOwnerMiddleware::class);
+        app('router')->aliasMiddleware('check-authorization-params', \Octobro\API\Middleware\CheckAuthCodeRequestMiddleware::class);
 
         // Handle error
         App::error(function(\Exception $e) {
@@ -43,7 +46,7 @@ class Plugin extends PluginBase
             $trace = $e->getTraceAsString();
 
             // Not sure it's the right way to do...
-            if (\mb_strpos($trace, 'Octobro\API\Controllers') || \mb_strpos($trace, 'LucaDegasperi\OAuth2Server\Middleware\OAuthMiddleware')) {
+            if (\mb_strpos($trace, 'Octobro\API\Controllers') || \mb_strpos($trace, 'Octobro\API\Middleware\OAuthMiddleware')) {
                 $error = [
                     'error' => [
                         'code' => 'INTERNAL_ERROR',

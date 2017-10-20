@@ -1,5 +1,5 @@
 1.0.1:
-    - oAuth Installation
+    - oAuth2 Installation
     - oauth/2014_04_24_110151_create_oauth_scopes_table.php
     - oauth/2014_04_24_110304_create_oauth_grants_table.php
     - oauth/2014_04_24_110403_create_oauth_grant_scopes_table.php

@@ -1,8 +1,7 @@
 {
     "require": {
-        "league/fractal": "^0.13.0",
-        "barryvdh/laravel-cors": "^0.8.0",
-        "lucadegasperi/oauth2-server-laravel": "^5.0"
+        "league/fractal": "^0.17.0",
+        "league/oauth2-server": "4.1.*",
+        "barryvdh/laravel-cors": "^0.10"
     }
 }
-
