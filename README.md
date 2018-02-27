@@ -1,4 +1,4 @@
-# API Framework with oAuth 2.0
+# API Framework
 
 It's a plugin for OctoberCMS for you that want to create an extensible and easy to use API server.
 
