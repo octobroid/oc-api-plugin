@@ -1,27 +1,25 @@
 <?php namespace Octobro\API\Classes;
 
-use Auth;
 use Input;
 use Event;
+use Closure;
 use Response;
 use Exception;
-use Authorizer;
 use SimpleXMLElement;
 use System\Models\File;
 use Illuminate\Routing\Controller;
-use RainLab\User\Models\User;
 use Symfony\Component\Yaml\Dumper as YamlDumper;
 use League\Fractal\Manager;
-use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
+use League\Fractal\Resource\Collection;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 
-class ApiController extends Controller {
+class ApiController extends Controller
+{
+    use \October\Rain\Extension\ExtendableTrait;
 
+    public $implement;
     protected $input, $data;
-
-    protected $user;
-
 	protected $statusCode = 200;
 
 	const CODE_WRONG_ARGS = 'WRONG_ARGS';
@@ -45,40 +43,30 @@ class ApiController extends Controller {
             $this->fractal->parseExcludes(Input::get('exclude'));
         }
 
-        $this->user = $this->getUser();
-
         $this->input = request()->isJson() ? request()->json() : request();
         $this->data = $this->input->all();
 
-        $this->fireDebugFilters();
+        $this->extendableConstruct();
     }
 
-    public function getUser()
+    /**
+     * Extend this object properties upon construction.
+     */
+    public static function extend(Closure $callback)
     {
-        try {
-            $userId = Authorizer::getResourceOwnerId();
+        self::extendableExtendCallback($callback);
+    }
 
-            if ($userId) {
-                $user = User::find($userId);
-
-                Auth::login($user);
-
-                return $user;
-            }
-        } catch(Exception $e) {
-            return null;
+    /**
+     * Perform dynamic methods
+     */
+    public function __call($method, $parameters)
+    {
+        if (isset($this->extensionData['dynamicMethods'][$method])) {
+            return call_user_func_array($this->extensionData['dynamicMethods'][$method], $parameters);
         }
-    }
 
-    public function fireDebugFilters()
-    {
-        // $this->beforeFilter(function () {
-        //     Event::fire('clockwork.controller.start');
-        // });
-        //
-        // $this->afterFilter(function () {
-        //     Event::fire('clockwork.controller.end');
-        // });
+        return call_user_func_array([$this, $method], $parameters);
     }
 
     /**
