@@ -292,7 +292,7 @@ class ApiController extends Controller
 
         $data = base64_decode(explode(',', $string)[1]);
 
-        $filePath = temp_path(time() . $this->user->id . '.' . $fileExt);
+        $filePath = temp_path(time() . rand() . '.' . $fileExt);
 
         file_put_contents($filePath, $data);
 
