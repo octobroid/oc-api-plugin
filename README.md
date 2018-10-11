@@ -132,7 +132,7 @@ class ProductTransformer extends Transformer
             'price'       => $product->price,
             'sale_price'  => $product->sale_price,
             'image'       => $this->image($product->image),
-            'gallery      => $this->images($product->gallery),
+            'gallery'     => $this->images($product->gallery),
             'created_at'  => date($product->created_at),
         ];
     }
@@ -185,15 +185,15 @@ The response will be.
         {
             "id": 1,
             "name": "Sample Prouct",
-            ...
+
             "brand": {
                 "data": {
-                    "id: 21,
-                    "name: "Nike",
+                    "id": 21,
+                    "name": "Nike",
                     ...
                 }
             },
-            ...
+
             "categories: {
                 "data": [
                     {
