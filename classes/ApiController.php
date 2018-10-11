@@ -1,7 +1,9 @@
 <?php namespace Octobro\API\Classes;
 
+use App;
 use Input;
 use Event;
+use Config;
 use Closure;
 use Response;
 use Exception;
@@ -45,6 +47,25 @@ class ApiController extends Controller
 
         $this->input = request()->isJson() ? request()->json() : request();
         $this->data = $this->input->all();
+
+        // Handle error
+        App::error(function(\Exception $e) {
+            header("Access-Control-Allow-Origin: *");
+            $trace = $e->getTraceAsString();
+
+            $error = [
+                'error' => [
+                    'code' => 'INTERNAL_ERROR',
+                    'http_code' => 500,
+                    'message' => $e->getMessage(),
+                ],
+            ];
+
+            if (Config::get('app.debug'))
+                $error['trace'] = $e->getTrace();
+
+            return $error;
+        });
 
         $this->extendableConstruct();
     }
@@ -92,29 +113,29 @@ class ApiController extends Controller
         return $this;
     }
 
-    protected function respondWithItem($item, $callback)
+    protected function respondWithItem($item, $callback, $key = null)
     {
-        $resource = new Item($item, $callback);
+        $resource = new Item($item, $callback, $key);
 
         $rootScope = $this->fractal->createData($resource);
 
         return $this->respondWithArray($rootScope->toArray());
     }
 
-    protected function respondWithCollection($collection, $callback)
+    protected function respondWithCollection($collection, $callback, $key = null)
     {
-        $resource = new Collection($collection, $callback);
+        $resource = new Collection($collection, $callback, $key);
 
         $rootScope = $this->fractal->createData($resource);
 
         return $this->respondWithArray($rootScope->toArray());
     }
 
-    protected function respondWithPaginator($paginator, $callback)
+    protected function respondWithPaginator($paginator, $callback, $key = null)
     {
         $collection = $paginator->getCollection();
 
-        $resource = new Collection($collection, $callback);
+        $resource = new Collection($collection, $callback, $key);
 
         $resource->setPaginator(new IlluminatePaginatorAdapter($paginator));
 
