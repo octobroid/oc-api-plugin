@@ -280,17 +280,17 @@ class ApiController extends Controller
 
     protected function base64ToFile($string)
     {
-        $mimeType = substr(explode(';', $string)[0], 5);
+        $mimeType = substr(array_get(explode(';', $string), 0), 5);
 
         switch($mimeType) {
             case 'image/jpeg':
                 $fileExt = 'jpg';
                 break;
             default:
-                $fileExt = explode('/', $mimeType)[1];
+                $fileExt = array_get(explode('/', $mimeType), 1);
         }
 
-        $data = base64_decode(explode(',', $string)[1]);
+        $data = base64_decode(array_last(explode(',', $string)));
 
         $filePath = temp_path(time() . rand() . '.' . $fileExt);
 
