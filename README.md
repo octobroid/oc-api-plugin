@@ -122,7 +122,7 @@ class ProductTransformer extends Transformer
     	'categories',
     ];
 
-    public function transform(Product $product)
+    public function data(Product $product)
     {
         return [
             'id'          => (int) $product->id,
