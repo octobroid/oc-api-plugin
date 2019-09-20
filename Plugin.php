@@ -16,4 +16,9 @@ class Plugin extends PluginBase
         app('router')->aliasMiddleware('cors', \Barryvdh\Cors\HandleCors::class);
         
     }
+
+    public function register()
+    {
+        $this->registerConsoleCommand('octobro.api.transformer', 'Octobro\API\Console\CreateTransformer');
+    }
 }

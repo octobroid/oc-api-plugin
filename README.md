@@ -150,6 +150,16 @@ class ProductTransformer extends Transformer
 
 ```
 
+#### With Scaffolding Command
+
+You can also create a transformer using the scaffolding commands to speed up your development process.
+
+Use `octobro:transformer` command to create a new transformer. The first parameter specifies the author and plugin name. The second parameter specifies the model name. Note that the model name must be written with its namespace and the backward slash used must be doubled.
+
+```
+php artisan octobro:transformer Foo.Bar Foo\\Bar\\Models\\Product
+```
+
 That's it! You're successfully created the API in easy way! There are ton of features that very usable for your scalable and extensible application.
 
 ### Trying the API

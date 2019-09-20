@@ -1,0 +1,17 @@
+<?php namespace {{studly_author}}\{{studly_plugin}}\Transformers;
+
+use {{model}};
+use Octobro\API\Classes\Transformer;
+
+/**
+ * {{name}}Transformer for {{model}}
+ */
+class {{name}}Transformer extends Transformer
+{
+    public function data({{name}} ${{name_lower}})
+    {
+        return [
+            'id'    => (int) ${{name_lower}}->id
+        ];
+    }
+}
