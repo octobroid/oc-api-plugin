@@ -24,7 +24,7 @@ This plugin is a base for your application API. You should create your "API" plu
 ### Create Your Plugin
 
 ```
-php artisan plugin:create Foo.Bar
+php artisan create:plugin Foo.Bar
 ```
 
 In your `Plugin.php` file, we recommend you to put `Octobro.API` as plugin dependency.
