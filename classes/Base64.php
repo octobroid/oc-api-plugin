@@ -10,15 +10,21 @@ class Base64 extends File {
 
         switch($mimeType) {
             case 'image/jpeg':
-                $fileExt = 'jpg';
+                $fileExt = '.jpg';
+                break;
+            case 'image/png':
+                $fileExt = '.png';
+                break;
+            case 'image/gif':
+                $fileExt = '.gif';
                 break;
             default:
-                $fileExt = array_get(explode('/', $mimeType), 1);
+                $fileExt = '';
         }
 
         $data = base64_decode(array_last(explode(',', $string)));
 
-        $filePath = temp_path(time() . rand() . '.' . $fileExt);
+        $filePath = temp_path(time() . rand() . $fileExt);
 
         file_put_contents($filePath, $data);
 
