@@ -11,8 +11,9 @@ class Plugin extends PluginBase
         App::register('\Fruitcake\Cors\CorsServiceProvider');
 
         // Add cors middleware
-        app('router')->aliasMiddleware('cors', \Fruitcake\Cors\HandleCors::class);
-        
+        $this->app['Illuminate\Contracts\Http\Kernel']
+            ->prependMiddleware(\Fruitcake\Cors\HandleCors::class);
+
     }
 
     public function register()
