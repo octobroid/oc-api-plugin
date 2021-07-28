@@ -4,8 +4,8 @@
     "type": "october-plugin",
     "keywords": ["october", "api"],
     "require": {
-        "php": ">=7.2.9",
-        "league/fractal": "^0.19",
-        "fruitcake/laravel-cors": "^2.0"
+        "php": "7.2.*",
+        "league/fractal": "^0.17.0",
+        "barryvdh/laravel-cors": "^0.10"
     }
 }
