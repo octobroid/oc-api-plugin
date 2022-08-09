@@ -149,12 +149,12 @@ abstract class Transformer extends TransformerAbstract
         return $result;
     }
 
-    protected function images($files, Array $customSizes = [])
+    protected function images($files, Array $customSizes = [], $replace = false)
     {
         $result = [];
 
         foreach ($files as $file) {
-            $result[] = $this->image($file);
+            $result[] = $this->image($file, $customSizes, $replace);
         }
 
         return $result;
