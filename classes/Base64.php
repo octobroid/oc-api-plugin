@@ -18,6 +18,9 @@ class Base64 extends File {
             case 'image/gif':
                 $fileExt = '.gif';
                 break;
+            case 'application/xlsx':
+                $fileExt = '.xlsx';
+                break;
             default:
                 $fileExt = '';
         }
