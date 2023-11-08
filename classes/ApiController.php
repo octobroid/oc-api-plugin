@@ -49,7 +49,7 @@ class ApiController extends Controller
         $this->data = $this->input->all();
 
         // Always add CORS for every request
-        header("Access-Control-Allow-Origin: *");
+        // header("Access-Control-Allow-Origin: *");
 
         // Handle error
         App::error(function(\Exception $e) {
