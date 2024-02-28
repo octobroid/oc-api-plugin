@@ -1,2 +1,4 @@
 1.0.1:
     - Initialize plugin.
+2.0.0:
+    - Support for Laravel 9 and 10
