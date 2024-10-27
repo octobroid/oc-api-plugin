@@ -5,6 +5,6 @@
     "keywords": ["october", "api"],
     "require": {
         "php": "^8.0.2",
-        "league/fractal": "^0.19"
+        "league/fractal": "^0.20"
     }
 }

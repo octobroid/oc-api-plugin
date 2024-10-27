@@ -10,11 +10,11 @@ abstract class Transformer extends TransformerAbstract
 
     public $implement;
 
-    public $defaultIncludes = [];
+    protected array $defaultIncludes = [];
 
-    public $availableIncludes = [];
+    protected array $availableIncludes = [];
 
-    protected $additionalFields = [];
+    protected array $additionalFields = [];
     /**
      * Instantiate a new BackendController instance.
      */

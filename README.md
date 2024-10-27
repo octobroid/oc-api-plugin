@@ -112,13 +112,13 @@ use Foo\Bar\Models\Product;
 class ProductTransformer extends Transformer
 {
     // Related transformer that can be included
-    public $availableIncludes = [
+    protected array $availableIncludes = [
     	'categories',
     	'brand',
     ];
     
     // Related transformer that will be included by default
-    public $defaultIncludes = [
+    protected array $defaultIncludes = [
     	'categories',
     ];
 
